@@ -4,14 +4,14 @@ import javax.crypto.interfaces.*;
 public class DHKeyAgreement4 {
     public static void main(String[] args) throws Exception {
         // initialise a with hard coded keysize/parameters
-        User alice = new User(new String("Alice"));
+        User alice = new User("Alice");
         DHPublicKey DHPubKey = (DHPublicKey) alice.pubKey;
         DHParameterSpec dhParamSpec = DHPubKey.getParams();
 
         // create b,c,d using the same parameters as a
-        User bob = new User(new String("Bob"), dhParamSpec);
-        User  carol = new User(new String("Carol"), dhParamSpec);
-        User david = new User(new String("David"), dhParamSpec);
+        User bob = new User("Bob", dhParamSpec);
+        User  carol = new User("Carol", dhParamSpec);
+        User david = new User("David", dhParamSpec);
 
         /* 
         share keys between users
