@@ -10,25 +10,8 @@ public class User {
     public KeyAgreement KeyAgree;
     public Key pubKey;
 
-    public User(String username) throws Exception {
-        name = username;
-
-        // user generates their DH key pair
-        System.out.println(name + ": Generate DH keypair ...");
-        KpairGen = KeyPairGenerator.getInstance("DH");
-        KpairGen.initialize(1024); // this is where the global paramaters should be put
-        keyPair = KpairGen.generateKeyPair();
-        
-        // user initializes
-        System.out.println(name + ": Initialize ...");
-        KeyAgree = KeyAgreement.getInstance("DH");
-        KeyAgree.init(keyPair.getPrivate());
-
-        pubKey = keyPair.getPublic();
-    }
-
-    public User(String username, DHParameterSpec dhParamSpec) throws Exception {
-        name = username;
+    public User(String userName, DHParameterSpec dhParamSpec) throws Exception {
+        name = userName;
 
         // user generates their DH key pair using provided specs
         System.out.println(name + ": Generate DH keypair ...");
@@ -44,12 +27,29 @@ public class User {
         pubKey = keyPair.getPublic();
     }
     
+    public User(String userName) throws Exception {
+        name = userName;
+
+        // user generates their DH key pair
+        System.out.println(name + ": Generate DH keypair ...");
+        KpairGen = KeyPairGenerator.getInstance("DH");
+        KpairGen.initialize(1024); // this is where the global paramaters should be put
+        keyPair = KpairGen.generateKeyPair();
+        
+        // user initializes
+        System.out.println(name + ": Initialize ...");
+        KeyAgree = KeyAgreement.getInstance("DH");
+        KeyAgree.init(keyPair.getPrivate());
+
+        pubKey = keyPair.getPublic();
+    }
+
     // simulates sending user's public key
     public Key send() {
         return pubKey;
     }
     // simulates sending user's public key after putting the key to the power of user's private key and MODing it
     public Key send(Key input) throws Exception {
-        return KeyAgree.doPhase(input, false);
+        return KeyAgree.doPhase(input, false); // false indicates this is not the last phase in the agreement
     }
 }
